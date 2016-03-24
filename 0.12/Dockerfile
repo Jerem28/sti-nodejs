@@ -20,11 +20,8 @@ LABEL io.k8s.description="Platform for building and running Node.js 0.12 applica
       com.redhat.deployments-dir="/opt/app-root/src" \
       com.redhat.dev-mode.port="DEBUG_PORT:5858"
 
-ADD https://rpm.nodesource.com/pub_0.12/el/7/x86_64/nodejs-0.12.12-1nodesource.el7.centos.x86_64.rpm /tmp/nodejs-0.12.12-1nodesource.el7.centos.x86_64.rpm
-
-RUN yum install -y centos-release-scl && \
-    rpm -V /tmp/nodejs-0.12.12-1nodesource.el7.centos.x86_64.rpm && \
-    yum clean all -y
+COPY nodejs-0.12.12-1nodesource.el7.centos.x86_64.rpm  /tmp/nodejs-0.12.12-1nodesource.el7.centos.x86_64.rpm
+RUN rpm -ivh /tmp/nodejs-0.12.12-1nodesource.el7.centos.x86_64.rpm
 
 # Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH
 COPY ./s2i/bin/ $STI_SCRIPTS_PATH
@@ -33,7 +30,6 @@ COPY ./s2i/bin/ $STI_SCRIPTS_PATH
 # run and build the applications.
 COPY ./contrib/ /opt/app-root
 
-RUN $PROMPT_COMMAND && npm install -g nodemon
 
 # Drop the root user and make the content of /opt/app-root owned by user 1001
 RUN chown -R 1001:0 /opt/app-root
