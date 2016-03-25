@@ -30,6 +30,11 @@ COPY ./s2i/bin/ $STI_SCRIPTS_PATH
 # run and build the applications.
 COPY ./contrib/ /opt/app-root
 
+# Replace bad end line of file Windows / Linux
+RUN sed -i -e 's/\r$//' $STI_SCRIPTS_PATH/assemble \
+  && sed -i -e 's/\r$//' $STI_SCRIPTS_PATH/run \
+  && sed -i -e 's/\r$//' $STI_SCRIPTS_PATH/usage
+
 
 # Drop the root user and make the content of /opt/app-root owned by user 1001
 RUN chown -R 1001:0 /opt/app-root
