@@ -3,7 +3,7 @@ FROM openshift/base-centos7
 # This image provides a Node.JS environment you can use to run your Node.JS
 # applications.
 
-MAINTAINER SoftwareCollections.org <sclorg@redhat.com>
+MAINTAINER Willy Rakotoarisoa
 
 EXPOSE 8080
 
@@ -20,6 +20,7 @@ LABEL io.k8s.description="Platform for building and running Node.js 0.12 applica
       com.redhat.deployments-dir="/opt/app-root/src" \
       com.redhat.dev-mode.port="DEBUG_PORT:5858"
 
+# Install nodejs 0.12.12 for Centos
 COPY nodejs-0.12.12-1nodesource.el7.centos.x86_64.rpm  /tmp/nodejs-0.12.12-1nodesource.el7.centos.x86_64.rpm
 RUN rpm -ivh /tmp/nodejs-0.12.12-1nodesource.el7.centos.x86_64.rpm
 
@@ -35,7 +36,7 @@ RUN sed -i -e 's/\r$//' $STI_SCRIPTS_PATH/assemble \
   && sed -i -e 's/\r$//' $STI_SCRIPTS_PATH/run \
   && sed -i -e 's/\r$//' $STI_SCRIPTS_PATH/usage
 
-# Add rights
+# Add execution rights
 RUN chmod -R a+rwx /usr/libexec/s2i
 RUN chmod -R a+rwx /usr/bin/fix-permissions
 
