@@ -35,6 +35,9 @@ RUN sed -i -e 's/\r$//' $STI_SCRIPTS_PATH/assemble \
   && sed -i -e 's/\r$//' $STI_SCRIPTS_PATH/run \
   && sed -i -e 's/\r$//' $STI_SCRIPTS_PATH/usage
 
+# Add rights
+RUN chmod -R a+rwx /usr/libexec/s2i
+RUN chmod -R a+rwx /usr/bin/fix-permissions
 
 # Drop the root user and make the content of /opt/app-root owned by user 1001
 RUN chown -R 1001:0 /opt/app-root
