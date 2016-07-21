@@ -1,0 +1,7 @@
+#!/bin/sh
+
+DISTRO=`cat /etc/*-release | grep ^ID= | grep -Po '".*?"' | tr -d '"'`
+
+cat <<EOF
+This is a S2I nodejs-4.4.7 ${DISTRO} base image
+EOF
